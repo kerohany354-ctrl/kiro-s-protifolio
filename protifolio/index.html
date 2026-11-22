@@ -1,0 +1,2644 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirolos Hany | Video Editor Portfolio</title>
+    <meta property="og:title" content="Kirolos Hany | Senior Video Editor Portfolio">
+    <meta property="og:description" content="Cinematic Video Editing, Motion Graphics, and AI Visual Production.">
+    <meta property="og:image" content="kirolos_hany.jpg">
+    <meta property="og:type" content="website">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030303;
+            --primary-orange: #ff6a00;
+            --gold: #d4af37;
+            --gold-light: #ffd700;
+            --text-color: #ffffff;
+            --text-secondary: #cccccc;
+        }
+
+        /* --- Force custom camera cursor globally on pointer/fine devices --- */
+        @media (hover: hover) and (pointer: fine) {
+            *, *::before, *::after, video, iframe, button, a, input, textarea {
+                cursor: none !important;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            color-scheme: dark;
+        }
+
+        /* --- Continuous & Dynamic Moving/Pulsing Golden Fog Background --- */
+        .gold-fog-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+            opacity: 0.8;
+            animation: pulseBackgroundFog 6s infinite alternate ease-in-out;
+        }
+
+        .fog-particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.65) 0%, rgba(255, 106, 0, 0.35) 45%, transparent 75%);
+            border-radius: 50%;
+            filter: blur(55px);
+            animation: moveFog 8s infinite alternate ease-in-out;
+        }
+
+        .fog-1 { width: min(950px, 120vw); height: min(950px, 120vw); top: -25%; left: -25%; animation-duration: 11s; }
+        .fog-2 { width: min(1100px, 130vw); height: min(1100px, 130vw); bottom: -35%; right: -25%; animation-duration: 14s; animation-delay: -2s; }
+        .fog-3 { width: min(850px, 110vw); height: min(850px, 110vw); top: 10%; left: 15%; animation-duration: 9s; animation-delay: -1s; }
+
+        @keyframes moveFog {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.6; }
+            50% { transform: translate(120px, 100px) scale(1.35) rotate(45deg); opacity: 0.9; }
+            100% { transform: translate(-100px, -120px) scale(1.15) rotate(-45deg); opacity: 0.7; }
+        }
+
+        @keyframes pulseBackgroundFog {
+            0% { filter: brightness(0.9) contrast(110%); }
+            100% { filter: brightness(1.4) contrast(140%) drop-shadow(0 0 40px rgba(255, 215, 0, 0.6)); }
+        }
+
+        /* --- Smooth Motion Blur Golden Aura tracking Mouse --- */
+        #gold-aura {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.22) 0%, rgba(255, 106, 0, 0.12) 40%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            filter: blur(25px);
+            will-change: transform;
+        }
+
+        /* --- Custom Camera Lens Cursor (REC on Right) --- */
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-direction: row-reverse;
+            will-change: transform;
+        }
+
+        @media (hover: none), (pointer: coarse) {
+            #custom-cursor, #gold-aura {
+                display: none !important;
+            }
+        }
+
+        .lens-ring {
+            width: 34px;
+            height: 34px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            position: relative;
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 14px rgba(255, 215, 0, 0.8);
+        }
+
+        .lens-ring::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: var(--primary-orange);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--gold-light);
+        }
+
+        .rec-text {
+            background: rgba(255, 0, 0, 0.9);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.9);
+            animation: pulseRec 1s infinite;
+        }
+
+        @keyframes pulseRec {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* --- Universal Interactive Zoom & Golden Glow Effect for ALL Blocks --- */
+        .interactive-block {
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, border-color 0.4s ease, filter 0.4s ease;
+            position: relative;
+        }
+
+        .interactive-block:hover {
+            transform: scale(1.03);
+            border-color: var(--gold-light) !important;
+            box-shadow: 0 0 45px rgba(255, 215, 0, 0.75), inset 0 0 20px rgba(255, 106, 0, 0.4);
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+            z-index: 20;
+        }
+
+        /* --- Navigation Bar --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 18px 16px;
+            z-index: 1000;
+            background: linear-gradient(180deg, rgba(3,3,3,0.95) 0%, rgba(3,3,3,0.5) 70%, transparent 100%);
+        }
+
+        .nav-glass-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 12px 36px;
+            border-radius: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            max-width: 100%;
+        }
+
+        .nav-glass-container:has(.nav-link:hover) {
+            background: rgba(0, 0, 0, 0) !important;
+            border-color: rgba(212, 175, 55, 0) !important;
+            backdrop-filter: blur(0px) !important;
+            box-shadow: none !important;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: clamp(18px, 4vw, 55px);
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: clamp(12px, 1.1vw, 15px);
+            font-weight: 700;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), color 0.4s ease, text-shadow 0.4s ease;
+            z-index: 20;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--gold-light);
+            transform: scale(1.45);
+            text-shadow: 0 0 25px var(--gold-light), 0 0 45px var(--primary-orange), 0 0 60px var(--gold);
+        }
+
+        /* --- Main Content Container --- */
+        .container {
+            position: relative;
+            z-index: 10;
+            margin-top: 86px;
+            min-height: calc(100vh - 86px);
+        }
+
+        .page-section {
+            display: none;
+            padding: clamp(24px, 4vw, 40px) clamp(18px, 4vw, 60px);
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .page-section.active-page {
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* --- Page 1: Home --- */
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            min-height: calc(100vh - 90px);
+            padding: 16px 0 60px 0;
+            gap: clamp(24px, 4vh, 40px);
+        }
+
+        .giant-glass-title-container {
+            width: min(92vw, 1400px);
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            backdrop-filter: blur(25px) contrast(130%);
+            -webkit-backdrop-filter: blur(25px) contrast(130%);
+            padding: clamp(26px, 4vw, 45px) 20px;
+            border-radius: 28px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), inset 0 0 25px rgba(255, 255, 255, 0.08);
+            text-align: center;
+        }
+
+        .giant-title {
+            font-size: clamp(2.4rem, 7vw, 7.5rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--gold-light), #fff, var(--primary-orange), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: clamp(2px, 0.4vw, 4px);
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
+            line-height: 1.1;
+        }
+
+        /* --- Continuous Shifting Palette (Black, White, Orange Shades, Gold) --- */
+        @keyframes shiftWorldPalette {
+            0% {
+                background-position: 0% 50%;
+                filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.75)) drop-shadow(0 0 24px rgba(255, 106, 0, 0.55));
+            }
+            33% {
+                background-position: 50% 50%;
+                filter: drop-shadow(0 0 18px rgba(255, 140, 0, 0.9)) drop-shadow(0 0 32px rgba(255, 255, 255, 0.45));
+            }
+            66% {
+                background-position: 100% 50%;
+                filter: drop-shadow(0 0 20px rgba(255, 244, 163, 0.95)) drop-shadow(0 0 34px rgba(255, 90, 0, 0.8));
+            }
+            100% {
+                background-position: 0% 50%;
+                filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.75)) drop-shadow(0 0 24px rgba(255, 106, 0, 0.55));
+            }
+        }
+
+        /* --- Independent Interactive Block for "WELCOME TO MY WORLD" --- */
+        .world-trigger-block {
+            margin-top: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 10px 26px;
+            border-radius: 999px;
+            background: rgba(12, 12, 12, 0.78);
+            border: 1.5px solid rgba(255, 215, 0, 0.55);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.65);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+            position: relative;
+            max-width: 100%;
+        }
+
+        .world-trigger-block:hover {
+            transform: scale(1.08);
+            border-color: var(--gold-light);
+            background: rgba(25, 14, 4, 0.9);
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.8), 0 0 22px rgba(255, 106, 0, 0.55);
+        }
+
+        .giant-subtitle {
+            font-size: clamp(0.88rem, 2vw, 1.6rem);
+            font-weight: 900;
+            letter-spacing: clamp(1.5px, 0.3vw, 3px);
+            text-transform: uppercase;
+            background-image: linear-gradient(
+                115deg,
+                #0a0a0a 0%,
+                #ffffff 18%,
+                #ff9e2c 36%,
+                #ffd700 54%,
+                #ff5500 72%,
+                #fff8cc 88%,
+                #0a0a0a 100%
+            );
+            background-size: 320% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shiftWorldPalette 5.5s linear infinite;
+        }
+
+        .click-hint-badge {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 999px;
+            color: #050505;
+            background: linear-gradient(135deg, #fff3b0, #ffd700, #ff6a00);
+            box-shadow: 0 0 14px rgba(255, 215, 0, 0.85);
+            opacity: 0;
+            max-width: 0;
+            overflow: hidden;
+            transform: translateX(-8px) scale(0.85);
+            transition: opacity 0.28s ease, max-width 0.32s ease, transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+            white-space: nowrap;
+        }
+
+        .world-trigger-block:hover .click-hint-badge {
+            opacity: 1;
+            max-width: 90px;
+            transform: translateX(0) scale(1);
+        }
+
+        @media (hover: none), (pointer: coarse) {
+            .click-hint-badge {
+                opacity: 1;
+                max-width: 90px;
+                transform: none;
+            }
+        }
+
+        /* --- Fullscreen Portal Overlay & Centered "O" Tunnel Phrase --- */
+        #world-portal-overlay {
+            position: fixed;
+            inset: 0;
+            background: #020202;
+            z-index: 9990;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.45s ease;
+        }
+
+        #world-portal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #world-portal-overlay.revealing {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        #flying-world-phrase {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            transform-origin: 50% 50%;
+            z-index: 9995;
+            pointer-events: none;
+            opacity: 0;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: clamp(2px, 0.4vw, 5px);
+            text-align: center;
+            white-space: nowrap;
+            font-size: clamp(1.5rem, 4.2vw, 3.8rem);
+            color: #ffd700;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: geometricPrecision;
+            backface-visibility: hidden;
+        }
+
+        #flying-world-phrase span,
+        #flying-world-phrase .o-portal-letter {
+            display: inline-block;
+            position: relative;
+            color: #ffd700;
+            text-shadow:
+                0 0 12px rgba(255, 215, 0, 0.9),
+                0 0 24px rgba(255, 106, 0, 0.75),
+                0 4px 12px rgba(0, 0, 0, 0.95);
+        }
+
+        #flying-world-phrase.styled-my-world span,
+        #flying-world-phrase.styled-my-world .o-portal-letter {
+            background-image: linear-gradient(
+                115deg,
+                #181818 0%,
+                #ffffff 22%,
+                #ff9e2c 44%,
+                #ffd700 66%,
+                #ff5500 86%,
+                #fff8cc 100%
+            );
+            background-size: 320% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shiftWorldPalette 4.5s linear infinite;
+        }
+
+        /* --- Docked "MY WORLD" Banner Inside Work Page (Below Nav, Above Project Tabs) --- */
+        #work-world-banner {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-top: 6px;
+            margin-bottom: -4px;
+            z-index: 30;
+            position: relative;
+        }
+
+        #work-world-banner.visible {
+            display: flex;
+        }
+
+        .work-world-pill {
+            padding: 12px clamp(24px, 4vw, 40px);
+            border-radius: 999px;
+            background: linear-gradient(145deg, rgba(14, 14, 14, 0.94), rgba(35, 16, 4, 0.9));
+            border: 2px solid rgba(255, 215, 0, 0.88);
+            box-shadow:
+                0 0 30px rgba(255, 215, 0, 0.65),
+                0 0 55px rgba(255, 106, 0, 0.45),
+                inset 0 0 18px rgba(255, 215, 0, 0.25);
+            font-size: clamp(1.35rem, 3.2vw, 2.7rem);
+            font-weight: 900;
+            letter-spacing: clamp(2px, 0.4vw, 5px);
+            text-transform: uppercase;
+            background-image: linear-gradient(
+                115deg,
+                #080808 0%,
+                #ffffff 18%,
+                #ff9e2c 36%,
+                #ffd700 54%,
+                #ff5500 72%,
+                #fff8cc 88%,
+                #080808 100%
+            );
+            background-size: 320% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shiftWorldPalette 5s linear infinite;
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+
+        .work-world-pill.dock-hidden {
+            opacity: 0;
+        }
+
+        .work-world-pill:hover {
+            transform: scale(1.06);
+            border-color: #fff6b8;
+            box-shadow:
+                0 0 42px rgba(255, 215, 0, 0.95),
+                0 0 70px rgba(255, 106, 0, 0.7),
+                inset 0 0 22px rgba(255, 215, 0, 0.4);
+        }
+
+        /* --- Realistic Multi-Depth Rising Emojis Layer (Laughing & Heart) --- */
+        #realistic-emojis-layer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 850;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.45s ease;
+        }
+
+        #realistic-emojis-layer.active {
+            opacity: 1;
+        }
+
+        #realistic-emojis-layer.exiting {
+            opacity: 0;
+            transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .depth-emoji {
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+            transform-origin: center center;
+            will-change: transform, opacity;
+        }
+
+        @keyframes riseUpAndClear {
+            0% {
+                opacity: 0;
+                transform: translate3d(var(--drift-x, 0px), 24px, 0) scale(0.45) rotate(var(--rot, 0deg));
+            }
+            16% {
+                opacity: var(--target-opacity, 0.92);
+                transform: translate3d(var(--drift-x, 0px), -4vh, 0) scale(1) rotate(var(--rot, 0deg));
+            }
+            65% {
+                opacity: var(--target-opacity, 0.92);
+                transform: translate3d(calc(var(--drift-x, 0px) * -0.6), calc(var(--rise-dist, -85vh) * 0.62), 0) scale(1.03) rotate(calc(var(--rot, 0deg) + 10deg));
+            }
+            100% {
+                opacity: 0;
+                transform: translate3d(var(--drift-x, 0px), var(--rise-dist, -110vh), 0) scale(0.85) rotate(calc(var(--rot, 0deg) + 22deg));
+            }
+        }
+
+        #realistic-emojis-layer.active .depth-emoji {
+            animation: riseUpAndClear var(--rise-duration, 4.8s) cubic-bezier(0.22, 1, 0.36, 1) var(--rise-delay, 0ms) forwards;
+        }
+
+        #realistic-emojis-layer.exiting .depth-emoji {
+            opacity: 0 !important;
+            transform: translate3d(0, -135vh, 0) scale(0.25) !important;
+            transition: transform 0.6s ease, opacity 0.55s ease;
+        }
+
+        .hero-large-img-box {
+            position: relative;
+            width: min(92vw, 1400px);
+            aspect-ratio: 16 / 9;
+            height: auto;
+            max-height: 75vh;
+            border-radius: 28px;
+            overflow: hidden;
+            border: 3px solid var(--gold);
+            background: rgba(10, 10, 10, 0.85);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.5), inset 0 0 25px rgba(255, 106, 0, 0.3);
+        }
+
+        .hero-large-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 25px;
+        }
+
+        /* --- Page 2: About Me (CV Page) --- */
+        .cv-wrapper {
+            max-width: 950px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(20px, 3vw, 35px);
+            padding-bottom: 50px;
+            text-align: left;
+        }
+
+        .cv-glass-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            backdrop-filter: blur(20px) contrast(120%);
+            -webkit-backdrop-filter: blur(20px) contrast(120%);
+            border-radius: 20px;
+            padding: clamp(22px, 4vw, 40px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .cv-glass-box h2 {
+            color: var(--gold);
+            font-size: clamp(20px, 2.5vw, 26px);
+            margin-bottom: 18px;
+            border-bottom: 2px solid var(--primary-orange);
+            padding-bottom: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .cv-glass-box p, .cv-glass-box li {
+            color: var(--text-secondary);
+            font-size: clamp(14px, 1.2vw, 15px);
+            line-height: 1.9;
+            margin-bottom: 12px;
+        }
+
+        .cv-glass-box ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        .cv-tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .cv-tag {
+            background: rgba(255, 106, 0, 0.18);
+            color: var(--gold-light);
+            border: 1px solid var(--primary-orange);
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* --- Page 3: My Work Page --- */
+        .work-page-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            z-index: 15;
+        }
+
+        /* --- Shiny Gold Arabic Bubble on Touching "MY WORK" Word --- */
+        #work-guide-bubble {
+            position: fixed;
+            top: 154px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-16px) scale(0.92);
+            max-width: min(680px, 92vw);
+            padding: 18px 26px;
+            border-radius: 26px;
+            background: linear-gradient(
+                135deg,
+                #fff3b0 0%,
+                #ffd700 22%,
+                #d4af37 52%,
+                #ffdf6b 78%,
+                #b8860b 100%
+            );
+            border: 2px solid #fff7c2;
+            box-shadow:
+                0 14px 36px rgba(0, 0, 0, 0.75),
+                0 0 28px rgba(255, 215, 0, 0.75),
+                inset 0 2px 12px rgba(255, 255, 255, 0.75);
+            z-index: 950;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.35s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+            direction: rtl;
+            unicode-bidi: isolate;
+            font-family: 'Cairo', sans-serif;
+            text-align: right;
+        }
+
+        #work-guide-bubble::after {
+            content: '';
+            position: absolute;
+            top: -11px;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #fff3b0 0%, #ffd700 60%, #d4af37 100%);
+            border-top: 2px solid #fff7c2;
+            border-left: 2px solid #fff7c2;
+            transform: translateX(-50%) rotate(45deg);
+            box-shadow: -3px -3px 10px rgba(255, 215, 0, 0.35);
+        }
+
+        #work-guide-bubble.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
+
+        /* Shrink and dive inward into the page when leaving "MY WORK" */
+        #work-guide-bubble.diving-in {
+            opacity: 0;
+            transform: translateX(-50%) translateY(150px) scale(0.08);
+            transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .bubble-title {
+            font-size: 16px;
+            font-weight: 900;
+            line-height: 1.5;
+            margin-bottom: 6px;
+            background: linear-gradient(90deg, #090909 0%, #2b1404 45%, #ff6a00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            direction: rtl;
+            unicode-bidi: isolate;
+        }
+
+        .bubble-body {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.85;
+            background: linear-gradient(105deg, #050505 0%, #1f0e02 52%, #e65c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            direction: rtl;
+            unicode-bidi: isolate;
+        }
+
+        /* Push mini-tabs smoothly down when bubble is visible so it never overlaps them */
+        .work-projects-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            transition: margin-top 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .work-projects-nav.pushed-by-bubble {
+            margin-top: 152px;
+        }
+
+        .project-tab-btn {
+            background: rgba(20, 20, 20, 0.8);
+            border: 2px solid var(--gold);
+            color: var(--gold-light);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: clamp(12.5px, 1.1vw, 15px);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .project-tab-btn.active-tab, .project-tab-btn:hover {
+            background: var(--primary-orange);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 106, 0, 0.7);
+            transform: scale(1.05);
+        }
+
+        /* Carousel Track Container */
+        .work-carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            padding: 32px 0;
+            outline: none;
+        }
+
+        .work-carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform;
+            align-items: center;
+        }
+
+        /* Individual Slide */
+        .work-slide {
+            min-width: 100%;
+            display: flex;
+            justify-content: center;
+            transition: filter 0.5s ease, opacity 0.5s ease, transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            filter: blur(14px) brightness(0.4);
+            opacity: 0.3;
+            transform: scale(0.82);
+            pointer-events: none;
+        }
+
+        .work-slide.active-slide {
+            filter: blur(0px) brightness(1);
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .work-fluid-container {
+            width: 100%;
+            max-width: 1150px;
+            display: grid;
+            grid-template-columns: minmax(250px, 320px) minmax(0, 1fr);
+            gap: clamp(22px, 3.5vw, 40px);
+            align-items: center;
+            padding: 16px;
+        }
+
+        /* --- Vertical Stack for Multi-Project Sections --- */
+        .work-vertical-stack {
+            width: 100%;
+            max-width: 1150px;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(36px, 5vw, 55px);
+            padding: 16px;
+        }
+
+        .fluid-video-box {
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 9 / 16;
+            height: auto;
+            max-height: 72vh;
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .fluid-video-box video {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            pointer-events: auto;
+        }
+
+        /* --- Dedicated Cinematic Layout for Short Movies --- */
+        .work-fluid-container.cinematic-layout {
+            max-width: 1300px;
+            grid-template-columns: minmax(0, 1fr) minmax(320px, 450px);
+            gap: clamp(20px, 3vw, 30px);
+            align-items: center;
+        }
+
+        .cinematic-video-box {
+            width: 100%;
+            aspect-ratio: 1920 / 800;
+            max-height: 62vh;
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .cinematic-video-box video {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            pointer-events: auto;
+        }
+
+        .cinematic-tall-glass-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            backdrop-filter: blur(20px) contrast(120%);
+            -webkit-backdrop-filter: blur(20px) contrast(120%);
+            border-radius: 20px;
+            padding: clamp(20px, 3vw, 30px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+            max-height: 62vh;
+            overflow-y: auto;
+        }
+
+        .fluid-glass-info-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            backdrop-filter: blur(20px) contrast(120%);
+            -webkit-backdrop-filter: blur(20px) contrast(120%);
+            border-radius: 20px;
+            padding: clamp(22px, 3.5vw, 35px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: left;
+        }
+
+        .project-title-center {
+            text-align: center;
+            width: 100%;
+        }
+
+        .project-title-center h3 {
+            color: var(--primary-orange);
+            font-size: clamp(13px, 1.1vw, 15px);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .project-title-center h4 {
+            color: var(--gold-light);
+            font-size: clamp(20px, 2.2vw, 26px);
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .fluid-info-section h5 {
+            color: var(--gold);
+            font-size: clamp(13px, 1.1vw, 15px);
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .fluid-info-section p {
+            color: var(--text-secondary);
+            font-size: clamp(14px, 1.15vw, 15px);
+            line-height: 1.8;
+        }
+
+        .carousel-nav-hint {
+            display: flex;
+            gap: 25px;
+            margin-top: 10px;
+            align-items: center;
+            color: var(--gold-light);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .carousel-arrow-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-arrow-btn:hover {
+            background: var(--primary-orange);
+            color: #fff;
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(255, 106, 0, 0.8);
+        }
+
+        /* --- Page 4: Let's Contact Page --- */
+        .contact-container {
+            max-width: 800px;
+            margin: clamp(24px, 5vh, 50px) auto;
+            background: rgba(15, 15, 15, 0.85);
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 16px;
+            padding: clamp(24px, 5vw, 50px);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-container h2 {
+            font-size: clamp(26px, 3.5vw, 36px);
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .contact-container p {
+            color: var(--text-secondary);
+            font-size: clamp(15px, 1.5vw, 18px);
+            margin-bottom: 30px;
+        }
+
+        .contact-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .contact-card {
+            background: rgba(25, 25, 25, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 25px;
+            border-radius: 12px;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .contact-card h4 {
+            color: var(--primary-orange);
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .contact-card.full-span-card {
+            grid-column: span 2;
+        }
+
+        .copyable-text {
+            user-select: text !important;
+            cursor: pointer !important;
+            display: inline-block;
+            transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .copyable-text:hover {
+            transform: scale(1.1);
+            color: var(--gold-light);
+            text-shadow: 0 0 15px var(--gold-light), 0 0 25px var(--primary-orange);
+        }
+
+        /* --- WhatsApp Quick-Chat Permission Modal --- */
+        #wa-permission-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.78);
+            backdrop-filter: blur(8px);
+            z-index: 10020;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #wa-permission-modal.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .wa-modal-card {
+            max-width: 440px;
+            width: 100%;
+            background: linear-gradient(145deg, rgba(20, 16, 10, 0.96), rgba(10, 10, 10, 0.98));
+            border: 2px solid var(--gold);
+            border-radius: 22px;
+            padding: 28px 24px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 30px rgba(255, 215, 0, 0.35);
+            direction: rtl;
+            unicode-bidi: isolate;
+            font-family: 'Cairo', sans-serif;
+            transform: scale(0.92);
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        #wa-permission-modal.open .wa-modal-card {
+            transform: scale(1);
+        }
+
+        .wa-modal-title {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--gold-light);
+            margin-bottom: 10px;
+        }
+
+        .wa-modal-desc {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 22px;
+        }
+
+        .wa-modal-number {
+            color: #ff9e2c;
+            font-weight: 900;
+            direction: ltr;
+            display: inline-block;
+        }
+
+        .wa-modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .wa-btn-allow {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: #ffffff;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .wa-btn-allow:hover {
+            transform: scale(1.04);
+            box-shadow: 0 8px 26px rgba(37, 211, 102, 0.55);
+        }
+
+        .wa-btn-cancel {
+            background: rgba(255, 255, 255, 0.07);
+            color: var(--text-secondary);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            padding: 11px 18px;
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            transition: transform 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+        }
+
+        .wa-btn-cancel:hover {
+            transform: scale(1.03);
+            color: #ffffff;
+            border-color: var(--gold-light);
+        }
+
+        #copy-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(212, 175, 55, 0.95);
+            color: #030303;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.8);
+            z-index: 10000;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            pointer-events: none;
+        }
+
+        #copy-toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* --- Tablet / Portrait / Small Laptop Adaptations --- */
+        @media (max-width: 1024px) {
+            .work-fluid-container {
+                grid-template-columns: minmax(220px, 290px) minmax(0, 1fr);
+                gap: 24px;
+            }
+            .work-fluid-container.cinematic-layout {
+                grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+            }
+        }
+
+        @media (max-width: 900px) {
+            nav { padding: 12px; }
+            .nav-glass-container { padding: 10px 18px; border-radius: 22px; }
+            .nav-links { gap: 14px; }
+            .hero-large-img-box { aspect-ratio: 4 / 3; max-height: 55vh; }
+            .work-fluid-container { grid-template-columns: 1fr; gap: 24px; }
+            .work-fluid-container.cinematic-layout { grid-template-columns: 1fr; }
+            .fluid-video-box { width: 100%; max-width: min(320px, 78vw); aspect-ratio: 9 / 16; max-height: 65vh; }
+            .cinematic-tall-glass-box { max-height: none; }
+            .contact-info-grid { grid-template-columns: 1fr; }
+            .contact-card.full-span-card { grid-column: span 1; }
+            #work-guide-bubble { top: 132px; padding: 14px 18px; }
+        }
+
+        @media (orientation: landscape) and (max-height: 520px) {
+            .hero-large-img-box { max-height: 68vh; }
+            .fluid-video-box { max-height: 78vh; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Continuous & Dynamic Moving/Pulsing Golden Fog Background -->
+    <div class="gold-fog-container">
+        <div class="fog-particle fog-1"></div>
+        <div class="fog-particle fog-2"></div>
+        <div class="fog-particle fog-3"></div>
+    </div>
+
+    <!-- Smooth Motion Blur Golden Aura tracking Mouse -->
+    <div id="gold-aura"></div>
+
+    <!-- Fullscreen Black Transition Overlay -->
+    <div id="world-portal-overlay"></div>
+
+    <!-- Flying & Transforming Phrase ("WELCOME TO MY WORLD" -> "MY WORLD") -->
+    <div id="flying-world-phrase">WELCOME TO MY WORLD</div>
+
+    <!-- Multi-Depth Realistic Laughing & Heart Emojis Background Layer -->
+    <div id="realistic-emojis-layer" aria-hidden="true"></div>
+
+    <!-- Custom Camera Lens Cursor (REC on Right) -->
+    <div id="custom-cursor">
+        <div class="rec-text">REC</div>
+        <div class="lens-ring"></div>
+    </div>
+
+    <!-- WhatsApp Quick-Chat Permission Modal -->
+    <div id="wa-permission-modal" role="dialog" aria-modal="true" aria-labelledby="waModalTitle">
+        <div class="wa-modal-card">
+            <div class="wa-modal-title" id="waModalTitle">تم نسخ الرقم — الانتقال إلى واتساب؟</div>
+            <p class="wa-modal-desc">
+                تم نسخ الرقم <span class="wa-modal-number" id="waModalNumberText"></span> بنجاح. هل تسمح للموقع بفتح واتساب مباشرةً للدخول في شات بينك وبين كيرولس هاني بدون خطوات إضافية؟
+            </p>
+            <div class="wa-modal-actions">
+                <button type="button" class="wa-btn-allow" id="waAllowBtn">السماح وفتح واتساب</button>
+                <button type="button" class="wa-btn-cancel" id="waCancelBtn">اكتفاءً بالنسخ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification for Copy -->
+    <div id="copy-toast">Copied to Clipboard!</div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav-glass-container">
+            <ul class="nav-links">
+                <li><a href="#" onclick="switchPage('home', event)" class="nav-link active">Home</a></li>
+                <li><a href="#" onclick="switchPage('cv', event)" class="nav-link">About Me</a></li>
+                <li><a href="#" onclick="switchPage('work', event)" class="nav-link">My Work</a></li>
+                <li><a href="#" onclick="switchPage('contact', event)" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- HOME PAGE -->
+        <section id="home" class="page-section active-page">
+            <div class="hero-section">
+                <div class="giant-glass-title-container interactive-block">
+                    <h1 class="giant-title">KIROLOS HANY</h1>
+                    <div class="world-trigger-block" id="welcomeWorldTrigger" role="button" tabindex="0" title="Enter My World">
+                        <span class="giant-subtitle">WELCOME TO MY WORLD</span>
+                        <span class="click-hint-badge">CLICK</span>
+                    </div>
+                </div>
+
+                <div class="hero-large-img-box interactive-block">
+                    <img src="kirolos_hany.jpg" alt="Kirolos Hany Profile">
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT ME PAGE -->
+        <section id="cv" class="page-section">
+            <div class="cv-wrapper">
+                
+                <div class="cv-glass-box interactive-block">
+                    <h2>Kirolos Hany Milad Dorgham</h2>
+                    <p style="color: var(--primary-orange); font-weight: 700; font-size: 16px; margin-bottom: 12px; letter-spacing: 0.5px;">SENIOR VIDEO EDITOR | VISUAL CREATOR | AI CONTENT SPECIALIST</p>
+                    <p><strong>Age:</strong> 21 | <strong>Education:</strong> Veterinary Medicine Student, Alexandria University</p>
+                    <p><strong>Experience:</strong> 4 Years in Video Editing | 5 Years in Photography</p>
+                </div>
+
+                <div class="cv-glass-box interactive-block">
+                    <h2>Professional Profile</h2>
+                    <p>I am a Senior Video Editor and Visual Creator with four years of hands-on experience in video editing and post-production, supported by five years of experience in photography, studio lighting, and visual production. I approach every project as a complete visual process: understanding the idea, shaping the story, planning the look, creating or capturing the visuals, and refining the final result through editing, color grading, motion design, and visual effects.</p>
+                    <p>My work combines creative thinking with technical execution. I use professional editing tools alongside modern AI platforms to develop content from scratch, enhance production workflows, explore visual concepts, and turn creative briefs into polished images and videos.</p>
+                </div>
+
+                <div class="cv-glass-box interactive-block">
+                    <h2>Core Areas of Expertise</h2>
+                    <ul>
+                        <li><strong>Video Editing & Storytelling:</strong> Cutting, sequencing, pacing, transitions, narrative flow, and polished final delivery.</li>
+                        <li><strong>Color Correction & Grading:</strong> Exposure, contrast, color balance, cinematic looks, mood creation, and shot matching.</li>
+                        <li><strong>Motion Graphics & Animation:</strong> Animated typography, graphic elements, visual explanations, and motion-based storytelling.</li>
+                        <li><strong>3D & Visual Effects:</strong> Blender-based 3D scenes, compositing, VFX integration, and visual enhancement.</li>
+                        <li><strong>AI Content Production:</strong> Generating images and videos from scratch, visual development, and AI-assisted creative workflows.</li>
+                        <li><strong>Photography & Lighting:</strong> Studio photography, lighting setups, visual composition, and commercial image-making.</li>
+                    </ul>
+                </div>
+
+                <div class="cv-glass-box interactive-block">
+                    <h2>Software & Creative Toolkit</h2>
+                    <div class="cv-tag-cloud">
+                        <span class="cv-tag">DaVinci Resolve</span>
+                        <span class="cv-tag">Adobe Premiere Pro</span>
+                        <span class="cv-tag">CapCut</span>
+                        <span class="cv-tag">Adobe After Effects</span>
+                        <span class="cv-tag">Blender 3D</span>
+                        <span class="cv-tag">Claude & ChatGPT</span>
+                        <span class="cv-tag">Google Flow & PixVerse AI</span>
+                    </div>
+                </div>
+
+                <div class="cv-glass-box interactive-block">
+                    <h2>Professional Experience & Industries</h2>
+                    <p>I have worked with a marketing agency and contributed to projects across a range of commercial and creative fields, adapting editing decisions and visual direction to different audiences and brand goals:</p>
+                    <ul>
+                        <li><strong>Marketing & Commercial Content:</strong> Contributing to marketing-oriented video projects with attention to visual appeal and audience engagement.</li>
+                        <li><strong>Medical & Educational Content:</strong> Editing content for doctors and educational use with an emphasis on clean presentation.</li>
+                        <li><strong>Restaurants & Food Content:</strong> Creating visually engaging edits highlighting products and atmosphere.</li>
+                        <li><strong>Automotive & Luxury Products:</strong> Editing car and perfume promotions using detail-focused pacing and moods.</li>
+                        <li><strong>Real Estate & Events:</strong> Covering real estate and events through photography and video finishing.</li>
+                        <li><strong>Studio Production:</strong> Operating my own studio for photography and video projects involving VFX and controlled lighting.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- MY WORK PAGE -->
+        <section id="work" class="page-section">
+            <div id="work-guide-bubble" dir="rtl" aria-hidden="true">
+                <div class="bubble-title" dir="rtl">استمتع بالمشاهدة في MY WORK ✨</div>
+                <div class="bubble-body" dir="rtl">
+                    الصفحة متقسمة لمجالات مختلفة، وممكن تلاقي أساليب زي الموشن جرافيك أو المؤثرات جوه أقسام تانية زي المطاعم أو الإيفينتات لأن كل مشروع ليه أسلوبه الخاص. استمتع بالمشاهدة ولازم تشوف كل الفيديوهات وتقرا الوصف اللي جنبها عشان تفهم تفاصيل الفكرة والتنفيذ كويس.
+                </div>
+            </div>
+
+            <div class="work-page-wrapper">
+                <!-- Docked "MY WORLD" Banner Below Nav and Above Project Tabs -->
+                <div id="work-world-banner">
+                    <div class="work-world-pill" id="myWorldHoverTarget">MY WORLD</div>
+                </div>
+
+                <div class="work-projects-nav" id="workProjectsNav">
+                    <button class="project-tab-btn active-tab interactive-block" onclick="goToSlide(0)">01. Chroma Key</button>
+                    <button class="project-tab-btn interactive-block" onclick="goToSlide(1)">02. Motion Graphics</button>
+                    <button class="project-tab-btn interactive-block" onclick="goToSlide(2)">03. AI Commercial</button>
+                    <button class="project-tab-btn interactive-block" onclick="goToSlide(3)">04. EVENTS</button>
+                    <button class="project-tab-btn interactive-block" onclick="goToSlide(4)">05. RESTAURANTS</button>
+                    <button class="project-tab-btn interactive-block" onclick="goToSlide(5)">06. SHORT MOVIES</button>
+                </div>
+
+                <!-- Swipe Carousel Wrapper -->
+                <div class="work-carousel-container" id="carouselContainer">
+                    <div class="work-carousel-track" id="carouselTrack">
+                        
+                        <!-- Slide 1: Chroma Key (Vertically Divided into Two Projects) -->
+                        <div class="work-slide active-slide">
+                            <div class="work-vertical-stack">
+                                <!-- Chroma Key Project 1: Chroma Key Tutorial -->
+                                <div class="work-fluid-container">
+                                    <div class="fluid-video-box interactive-block">
+                                        <video controls controlslist="nodownload" preload="none" playsinline>
+                                            <source data-src="the power of croma key.mov" type="video/quicktime">
+                                            Your browser does not support video.
+                                        </video>
+                                    </div>
+                                    <div class="fluid-glass-info-box interactive-block">
+                                        <div class="project-title-center">
+                                            <h3>01 — PROJECT TITLE</h3>
+                                            <h4>CHROMA KEY TUTORIAL</h4>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>02 — PROJECT OVERVIEW</h5>
+                                            <p>An educational video demonstrating how to replace a green screen background, designed to help viewers understand the chroma key process and apply it to their own video projects.</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>03 — MY ROLE</h5>
+                                            <p>Filming · Lighting Setup · Video Editing · Chroma Key</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>04 — CREATIVE APPROACH</h5>
+                                            <p>I handled the filming, set up the lighting, and edited the video to deliver a clear and practical tutorial. The focus was on demonstrating the green screen background replacement process in an accessible, visually engaging way, making the technique easier for viewers to understand and apply.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Chroma Key Project 2: VFX & Lighting Breakdown Tutorial -->
+                                <div class="work-fluid-container">
+                                    <div class="fluid-video-box interactive-block">
+                                        <video controls controlslist="nodownload" preload="none" playsinline>
+                                            <source data-src="how to make this .mov" type="video/quicktime">
+                                            Your browser does not support video.
+                                        </video>
+                                    </div>
+                                    <div class="fluid-glass-info-box interactive-block">
+                                        <div class="project-title-center">
+                                            <h3>01 — PROJECT TITLE</h3>
+                                            <h4>VFX &amp; LIGHTING BREAKDOWN TUTORIAL</h4>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>02 — PROJECT OVERVIEW</h5>
+                                            <p>A fast-paced, educational short-form reel designed to demystify visual effects and green screen production. The video breaks down the fundamentals of VFX, cinematic lighting matching, background selection, and dynamic transitions to show creators how to achieve seamless, convincing composite shots in under a minute.</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>03 — MY ROLE</h5>
+                                            <p>Concept &amp; Scriptwriting · On-Camera Presenter · Cinematography &amp; Lighting · Video Editing · VFX &amp; Compositing</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>04 — CREATIVE APPROACH</h5>
+                                            <p>I developed the concept and scripted a concise, hook-driven narrative tailored for short-form retention. I handled the filming and lighting setup, demonstrating in real time how precise lighting angles sell a composite scene. In post-production, I executed the chroma keying, background integration, sound design, and pacing to make technical visual effects accessible, practical, and engaging for creators.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2: Motion Graphics -->
+                        <div class="work-slide">
+                            <div class="work-fluid-container">
+                                <div class="fluid-video-box interactive-block">
+                                    <video controls controlslist="nodownload" preload="none" playsinline>
+                                        <source data-src="lumix motion graphic 2 f.mov" type="video/quicktime">
+                                        Your browser does not support video.
+                                    </video>
+                                </div>
+                                <div class="fluid-glass-info-box interactive-block">
+                                    <div class="project-title-center">
+                                        <h3>01 — PROJECT TITLE</h3>
+                                        <h4>COMPANY FORMATION — MOTION GRAPHICS</h4>
+                                    </div>
+                                    <div class="fluid-info-section">
+                                        <h5>02 — PROJECT OVERVIEW</h5>
+                                        <p>A motion graphics video created for the company formation industry, designed to raise awareness about business setup services and drive direct sales through clear, engaging visual communication.</p>
+                                    </div>
+                                    <div class="fluid-info-section">
+                                        <h5>03 — MY ROLE</h5>
+                                        <p>Illustration · Motion Graphics · Animation · Video Editing</p>
+                                    </div>
+                                    <div class="fluid-info-section">
+                                        <h5>04 — CREATIVE APPROACH</h5>
+                                        <p>I developed and illustrated the visual elements from scratch, bringing them to life through custom motion graphics and animation. The creative approach focused on simplifying the company formation process, communicating the service's value, and guiding viewers toward taking action.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3: AI Commercial (Vertically Divided into Two Projects) -->
+                        <div class="work-slide">
+                            <div class="work-vertical-stack">
+                                <!-- AI Project 1: Garnet Perfume -->
+                                <div class="work-fluid-container">
+                                    <div class="fluid-video-box interactive-block">
+                                        <video controls controlslist="nodownload" preload="none" playsinline>
+                                            <source data-src="garnet awerness 1 f.mov" type="video/quicktime">
+                                            Your browser does not support video.
+                                        </video>
+                                    </div>
+                                    <div class="fluid-glass-info-box interactive-block">
+                                        <div class="project-title-center">
+                                            <h3>01 — PROJECT TITLE</h3>
+                                            <h4>PERFUME COMMERCIAL FILM</h4>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>02 — PROJECT OVERVIEW</h5>
+                                            <p>A cinematic perfume commercial designed to highlight the fragrance’s identity through visually striking imagery, carefully crafted lighting, and a premium aesthetic.</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>03 — MY ROLE</h5>
+                                            <p>Creative Concept · Art Direction · Lighting Setup · Filming · Video Editing · Color Grading</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>04 — CREATIVE APPROACH</h5>
+                                            <p>I developed the concept and independently executed the entire project, from the initial creative vision and lighting setup to filming and final editing. Every visual element was carefully crafted to reflect the perfume’s character, creating a premium cinematic experience that combines atmosphere, detail, and visual storytelling.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- AI Project 2: From Italy to Cairo -->
+                                <div class="work-fluid-container">
+                                    <div class="fluid-video-box interactive-block">
+                                        <video controls controlslist="nodownload" preload="none" playsinline>
+                                            <source data-src="القهوة الايطالي .mov" type="video/quicktime">
+                                            Your browser does not support video.
+                                        </video>
+                                    </div>
+                                    <div class="fluid-glass-info-box interactive-block">
+                                        <div class="project-title-center">
+                                            <h3>01 — PROJECT TITLE</h3>
+                                            <h4>AI COFFEE COMMERCIAL — FROM ITALY TO CAIRO</h4>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>02 — PROJECT OVERVIEW</h5>
+                                            <p>A fully AI-generated commercial tracking the journey of premium coffee from the rolling hills and ports of Italy to traditional Egyptian brewing. The project combines cinematic AI visuals, custom synthetic voiceover, and seamless pacing to deliver an evocative, sensory-driven storytelling experience.</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>03 — MY ROLE</h5>
+                                            <p>Creative Direction · Concept &amp; Scriptwriting · AI Video Generation · AI Voiceover &amp; Audio Design · Video Editing &amp; Color Grading</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>04 — CREATIVE APPROACH</h5>
+                                            <p>I developed the core creative concept, scripted the narrative, and directed the entire visual execution using generative AI tools. From prompting and curating consistent, high-fidelity footage (harvesting, shipping, roasting, and the café transition) to synthesizing a natural, localized voiceover, every element was built from scratch. I then edited and polished the sequence with precise sound design and seamless cuts to vividly transport the viewer from an Egyptian coffeehouse straight into the heart of Italy with every sip.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 4: EVENTS (Vertically Divided into Two Projects) -->
+                        <div class="work-slide">
+                            <div class="work-vertical-stack">
+                                <!-- Event Project 1: Real Estate Event Film -->
+                                <div class="work-fluid-container">
+                                    <div class="fluid-video-box interactive-block">
+                                        <video controls controlslist="nodownload" preload="none" playsinline>
+                                            <source data-src="امبراطورية مين .mp4" type="video/mp4">
+                                            Your browser does not support video.
+                                        </video>
+                                    </div>
+                                    <div class="fluid-glass-info-box interactive-block">
+                                        <div class="project-title-center">
+                                            <h3>01 — PROJECT TITLE</h3>
+                                            <h4>REAL ESTATE EVENT FILM</h4>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>02 — PROJECT OVERVIEW</h5>
+                                            <p>A cinematic event film capturing the atmosphere, energy, and key moments of a real estate event.</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>03 — MY ROLE</h5>
+                                            <p>Concept Development · Creative Direction · Filming · Video Editing</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>04 — CREATIVE APPROACH</h5>
+                                            <p>From the initial concept to the final edit, I independently crafted the entire project, bringing the vision to life through cinematic visuals and storytelling.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Event Project 2: Embratoreyet Meen -->
+                                <div class="work-fluid-container">
+                                    <div class="fluid-video-box interactive-block">
+                                        <video controls controlslist="nodownload" preload="none" playsinline>
+                                            <source data-src="approval video after edit.mov" type="video/quicktime">
+                                            Your browser does not support video.
+                                        </video>
+                                    </div>
+                                    <div class="fluid-glass-info-box interactive-block">
+                                        <div class="project-title-center">
+                                            <h3>01 — PROJECT TITLE</h3>
+                                            <h4>REAL ESTATE EVENT INVITATION REVEAL — "EMBRATOREYET MEEN"</h4>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>02 — PROJECT OVERVIEW</h5>
+                                            <p>A luxury unboxing and promotional reel created for the major real estate event "إمبراطورية مين؟" (Embratoreyet Meen). Designed to generate excitement and drive attendance, the video showcases the premium VIP invitation package, spotlighting high-end packaging details, key partner developers, and personalized stamping in an elegant, executive aesthetic.</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>03 — MY ROLE</h5>
+                                            <p>Set Design · Lighting Setup · Cinematography · Video Editing &amp; Color Grading</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>04 — CREATIVE APPROACH</h5>
+                                            <p>I designed the desk set and established a focused, atmospheric lighting setup to accentuate the rich black-and-gold tones and metallic details of the invitation box. During filming, I captured deliberate close-ups highlighting tactile elements—unboxing the package, examining the invitation card, and stamping each pass. In post-production, I assembled the sequence with precise pacing, subtle motion, and refined color grading to reflect the prestige and exclusivity of the event.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 5: RESTAURANTS (Vertically Divided into Two Projects) -->
+                        <div class="work-slide">
+                            <div class="work-vertical-stack">
+                                <!-- Restaurant Project 1: Japanese Restaurant Offers Film -->
+                                <div class="work-fluid-container">
+                                    <div class="fluid-video-box interactive-block">
+                                        <video controls controlslist="nodownload" preload="none" playsinline>
+                                            <source data-src="harahetta offers .mov" type="video/quicktime">
+                                            Your browser does not support video.
+                                        </video>
+                                    </div>
+                                    <div class="fluid-glass-info-box interactive-block">
+                                        <div class="project-title-center">
+                                            <h3>01 — PROJECT TITLE</h3>
+                                            <h4>JAPANESE RESTAURANT OFFERS FILM</h4>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>02 — PROJECT OVERVIEW</h5>
+                                            <p>A cinematic promotional film for a Japanese restaurant, showcasing its signature dishes and special offers through rich, appetizing visuals, refined lighting, and dynamic motion.</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>03 — MY ROLE</h5>
+                                            <p>Lighting Design · Filming · Video Editing · Motion Graphics · Color Grading</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>04 — CREATIVE APPROACH</h5>
+                                            <p>I handled the project end to end, from designing the lighting setup and filming each shot to the final edit. I shaped the mood with carefully placed lighting, added motion graphics to highlight the offers, and finished with color grading that brings out the freshness and warmth of the food, turning a simple menu promotion into a polished, high-end visual experience.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Restaurant Project 2: Hara Hetta Ramen -->
+                                <div class="work-fluid-container">
+                                    <div class="fluid-video-box interactive-block">
+                                        <video controls controlslist="nodownload" preload="none" playsinline>
+                                            <source data-src="احلي رامن.mov" type="video/quicktime">
+                                            Your browser does not support video.
+                                        </video>
+                                    </div>
+                                    <div class="fluid-glass-info-box interactive-block">
+                                        <div class="project-title-center">
+                                            <h3>01 — PROJECT TITLE</h3>
+                                            <h4>RESTAURANT PROMO — HARA HETTA RAMEN</h4>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>02 — PROJECT OVERVIEW</h5>
+                                            <p>A punchy, high-energy commercial reel produced for "Hara Hetta" Japanese restaurant to promote their signature ramen and exclusive offers. Crafted specifically for social media engagement, the video combines vibrant atmospheric lighting, dynamic framing, kinetic Arabic typography, and a stylized anime transition that perfectly matches the restaurant's Japanese aesthetic.</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>03 — MY ROLE</h5>
+                                            <p>Set Design · Lighting Setup · Cinematography · Video Editing &amp; Motion Graphics · Stylized Visual Effects</p>
+                                        </div>
+                                        <div class="fluid-info-section">
+                                            <h5>04 — CREATIVE APPROACH</h5>
+                                            <p>I built the set atmosphere and designed a tailored lighting setup to complement the Japanese backdrop, balancing directional key lighting with moody colored accents to create depth and visual separation. During filming, I focused on clean framing and rhythm, followed by comprehensive post-production featuring fast-paced cuts, sound design, animated on-screen graphics, and an anime visual transformation to reinforce the brand's authentic theme and maximize viewer retention.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 6: SHORT MOVIES (Cinematic 1920:800 Widescreen -> f.mp4) -->
+                        <div class="work-slide">
+                            <div class="work-fluid-container cinematic-layout">
+                                <div class="cinematic-video-box interactive-block">
+                                    <video id="shortMovieVideo" controls controlslist="nodownload" preload="none" playsinline>
+                                        <source data-src="f.mp4" type="video/mp4">
+                                        Your browser does not support video.
+                                    </video>
+                                </div>
+                                <div class="cinematic-tall-glass-box interactive-block">
+                                    <div class="project-title-center">
+                                        <h3>01 — PROJECT TITLE</h3>
+                                        <h4>EVENT INVITATION FILM</h4>
+                                    </div>
+                                    <div class="fluid-info-section">
+                                        <h5>02 — PROJECT OVERVIEW</h5>
+                                        <p>A creative event invitation video designed to build anticipation and encourage attendance through a combination of real-life footage and AI-generated characters, blending cinematic visuals with engaging storytelling.</p>
+                                    </div>
+                                    <div class="fluid-info-section">
+                                        <h5>03 — MY ROLE</h5>
+                                        <p>Creative Concept · Filming · AI Character Generation · Video Editing · Visual Effects · Color Grading</p>
+                                    </div>
+                                    <div class="fluid-info-section">
+                                        <h5>04 — CREATIVE APPROACH</h5>
+                                        <p>I developed the concept and independently handled the filming and editing, combining real people with AI-generated characters to bring the vision to life. Through a seamless blend of real footage and AI visuals, I created an engaging invitation film designed to capture attention, build excitement, and invite the audience to attend the event.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Carousel Navigation Arrows / Hint -->
+                <div class="carousel-nav-hint">
+                    <div class="carousel-arrow-btn interactive-block" onclick="prevSlide()" title="Previous Project">❮</div>
+                    <span>SWIPE OR USE ARROWS</span>
+                    <div class="carousel-arrow-btn interactive-block" onclick="nextSlide()" title="Next Project">❯</div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CONTACT PAGE -->
+        <section id="contact" class="page-section">
+            <div class="contact-container interactive-block">
+                <h2>Let's Connect</h2>
+                <p>Get in touch to turn your visual ideas into cinematic and professional masterpieces.</p>
+                <div class="contact-info-grid">
+                    <div class="contact-card interactive-block">
+                        <h4>Phone / WhatsApp</h4>
+                        <span class="copyable-text" onclick="copyToClipboard('01204985302')" title="Click to copy">01204985302</span><br>
+                        <span class="copyable-text" onclick="copyToClipboard('01044880760')" title="Click to copy">01044880760</span>
+                    </div>
+                    <div class="contact-card interactive-block">
+                        <h4>Email Address</h4>
+                        <span class="copyable-text" onclick="copyToClipboard('kerohany354@gmail.com')" title="Click to copy">kerohany354@gmail.com</span>
+                    </div>
+                    <div class="contact-card interactive-block full-span-card">
+                        <h4>Location</h4>
+                        <span>Alexandria, Egypt</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JavaScript for Deep Studio Audio, "O" Portal Animation, Rising Depth Emojis, Bubble Hover & WhatsApp Quick-Chat -->
+    <script>
+        // --- Short Movie Diagnostic Logger (f.mp4) ---
+        const shortMovieVideo = document.getElementById('shortMovieVideo');
+        if (shortMovieVideo) {
+            shortMovieVideo.addEventListener('loadedmetadata', () => {
+                console.log('SHORT MOVIE (f.mp4) metadata loaded:', {
+                    width: shortMovieVideo.videoWidth,
+                    height: shortMovieVideo.videoHeight,
+                    duration: shortMovieVideo.duration
+                });
+            });
+            shortMovieVideo.addEventListener('error', () => {
+                const err = shortMovieVideo.error;
+                const codeMap = {
+                    1: 'MEDIA_ERR_ABORTED',
+                    2: 'MEDIA_ERR_NETWORK',
+                    3: 'MEDIA_ERR_DECODE (Codec unsupported or corrupted stream)',
+                    4: 'MEDIA_ERR_SRC_NOT_SUPPORTED (File not found at src or unsupported format/codec)'
+                };
+                console.error('SHORT MOVIE (f.mp4) error:', {
+                    code: err ? err.code : 'unknown',
+                    reason: err ? (codeMap[err.code] || 'UNKNOWN') : 'UNKNOWN',
+                    currentSrc: shortMovieVideo.currentSrc
+                });
+            });
+        }
+
+        // --- Deep & Refined Studio Interaction Sound Engine (Web Audio API) ---
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume().catch(() => {});
+            }
+        }
+
+        function playDeepBlockSound() {
+            try {
+                initAudio();
+                if (!audioCtx || audioCtx.state !== 'running') return;
+
+                const now = audioCtx.currentTime;
+
+                const subOsc = audioCtx.createOscillator();
+                const subGain = audioCtx.createGain();
+                subOsc.type = 'sine';
+                subOsc.frequency.setValueAtTime(118, now);
+                subOsc.frequency.exponentialRampToValueAtTime(42, now + 0.22);
+
+                subGain.gain.setValueAtTime(0.001, now);
+                subGain.gain.linearRampToValueAtTime(0.36, now + 0.018);
+                subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+
+                subOsc.connect(subGain);
+                subGain.connect(audioCtx.destination);
+                subOsc.start(now);
+                subOsc.stop(now + 0.25);
+
+                const bodyOsc = audioCtx.createOscillator();
+                const bodyFilter = audioCtx.createBiquadFilter();
+                const bodyGain = audioCtx.createGain();
+
+                bodyOsc.type = 'triangle';
+                bodyOsc.frequency.setValueAtTime(220, now);
+                bodyOsc.frequency.exponentialRampToValueAtTime(148, now + 0.19);
+
+                bodyFilter.type = 'lowpass';
+                bodyFilter.frequency.setValueAtTime(520, now);
+                bodyFilter.frequency.exponentialRampToValueAtTime(190, now + 0.22);
+                bodyFilter.Q.value = 1.4;
+
+                bodyGain.gain.setValueAtTime(0.001, now);
+                bodyGain.gain.linearRampToValueAtTime(0.13, now + 0.02);
+                bodyGain.gain.exponentialRampToValueAtTime(0.0008, now + 0.22);
+
+                bodyOsc.connect(bodyFilter);
+                bodyFilter.connect(bodyGain);
+                bodyGain.connect(audioCtx.destination);
+                bodyOsc.start(now);
+                bodyOsc.stop(now + 0.23);
+            } catch (e) {}
+        }
+
+        // Expansion / Zoom-In Sound through "O"
+        function playExpansionBoomSound() {
+            try {
+                initAudio();
+                if (!audioCtx || audioCtx.state !== 'running') return;
+                const now = audioCtx.currentTime;
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(75, now);
+                osc.frequency.exponentialRampToValueAtTime(280, now + 0.45);
+                osc.frequency.exponentialRampToValueAtTime(34, now + 0.75);
+
+                gain.gain.setValueAtTime(0.01, now);
+                gain.gain.linearRampToValueAtTime(0.45, now + 0.12);
+                gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.78);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.8);
+            } catch (e) {}
+        }
+
+        // Magic Transition Sound (Behind the black screen when switching pages)
+        function playMagicPortalSound() {
+            try {
+                initAudio();
+                if (!audioCtx || audioCtx.state !== 'running') return;
+                const now = audioCtx.currentTime;
+
+                const notes = [440, 554.37, 659.25, 880, 1108.73, 1318.5];
+                notes.forEach((freq, idx) => {
+                    const start = now + idx * 0.065;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+
+                    osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+                    osc.frequency.setValueAtTime(freq, start);
+                    osc.frequency.exponentialRampToValueAtTime(freq * 1.04, start + 0.55);
+
+                    gain.gain.setValueAtTime(0.0001, start);
+                    gain.gain.linearRampToValueAtTime(0.09, start + 0.04);
+                    gain.gain.exponentialRampToValueAtTime(0.0005, start + 0.6);
+
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(start);
+                    osc.stop(start + 0.62);
+                });
+            } catch (e) {}
+        }
+
+        // Shrink / Dive-in Sound (Shrinking back from "O" or bubble diving into the page)
+        function playShrinkDiveSound() {
+            try {
+                initAudio();
+                if (!audioCtx || audioCtx.state !== 'running') return;
+                const now = audioCtx.currentTime;
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(340, now);
+                osc.frequency.exponentialRampToValueAtTime(52, now + 0.45);
+
+                gain.gain.setValueAtTime(0.01, now);
+                gain.gain.linearRampToValueAtTime(0.32, now + 0.03);
+                gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.48);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } catch (e) {}
+        }
+
+        // Push / Pull Sound when mini-tabs shift for the bubble
+        function playPushShiftSound(pushingDown) {
+            try {
+                initAudio();
+                if (!audioCtx || audioCtx.state !== 'running') return;
+                const now = audioCtx.currentTime;
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                if (pushingDown) {
+                    osc.frequency.setValueAtTime(150, now);
+                    osc.frequency.exponentialRampToValueAtTime(95, now + 0.22);
+                } else {
+                    osc.frequency.setValueAtTime(105, now);
+                    osc.frequency.exponentialRampToValueAtTime(165, now + 0.22);
+                }
+
+                gain.gain.setValueAtTime(0.001, now);
+                gain.gain.linearRampToValueAtTime(0.18, now + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.0006, now + 0.24);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            } catch (e) {}
+        }
+
+        // Incoming Messages / Notifications Chimes when Emojis Pop In
+        function playMessagesPopSound() {
+            try {
+                initAudio();
+                if (!audioCtx || audioCtx.state !== 'running') return;
+                const now = audioCtx.currentTime;
+
+                const pattern = [
+                    { t: 0.00, f1: 784, f2: 1046.5 },
+                    { t: 0.11, f1: 880, f2: 1174.66 },
+                    { t: 0.22, f1: 987.77, f2: 1318.51 },
+                    { t: 0.34, f1: 1046.5, f2: 1567.98 }
+                ];
+
+                pattern.forEach(item => {
+                    const start = now + item.t;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(item.f1, start);
+                    osc.frequency.exponentialRampToValueAtTime(item.f2, start + 0.08);
+
+                    gain.gain.setValueAtTime(0.001, start);
+                    gain.gain.linearRampToValueAtTime(0.14, start + 0.015);
+                    gain.gain.exponentialRampToValueAtTime(0.0005, start + 0.16);
+
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(start);
+                    osc.stop(start + 0.17);
+                });
+            } catch (e) {}
+        }
+
+        document.addEventListener('pointerdown', () => {
+            initAudio();
+        }, { once: true });
+
+        // --- Smooth Air Swipe / Whoosh Sound for Carousel transitions ---
+        function playSwipeSound() {
+            try {
+                initAudio();
+                if (!audioCtx || audioCtx.state !== 'running') return;
+                const now = audioCtx.currentTime;
+                
+                const bufferSize = audioCtx.sampleRate * 0.3;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(250, now);
+                filter.frequency.exponentialRampToValueAtTime(1000, now + 0.15);
+                filter.frequency.exponentialRampToValueAtTime(180, now + 0.3);
+                filter.Q.value = 1.2;
+
+                const gain = audioCtx.createGain();
+                gain.gain.setValueAtTime(0.01, now);
+                gain.gain.linearRampToValueAtTime(0.2, now + 0.12);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
+
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                noise.start(now);
+                noise.stop(now + 0.3);
+            } catch(e) {}
+        }
+
+        // --- Realistic 3D-Look Laughing & Heart Emojis Rising Upward Until Cleared ---
+        const emojisLayer = document.getElementById('realistic-emojis-layer');
+        let emojiCleanupTimer = null;
+
+        function buildRealisticEmojiSVG(type) {
+            if (type === 'laugh') {
+                return `
+                <svg viewBox="0 0 120 120" width="100%" height="100%">
+                    <defs>
+                        <radialGradient id="faceGrad" cx="35%" cy="28%" r="70%">
+                            <stop offset="0%" stop-color="#fff078"/>
+                            <stop offset="55%" stop-color="#ffc819"/>
+                            <stop offset="100%" stop-color="#d97706"/>
+                        </radialGradient>
+                        <radialGradient id="cheekGrad" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#ff4d4d" stop-opacity="0.55"/>
+                            <stop offset="100%" stop-color="#ff4d4d" stop-opacity="0"/>
+                        </radialGradient>
+                    </defs>
+                    <circle cx="60" cy="60" r="54" fill="url(#faceGrad)"/>
+                    <ellipse cx="42" cy="42" rx="18" ry="10" transform="rotate(-22 42 42)" fill="rgba(255,255,255,0.45)"/>
+                    <circle cx="28" cy="66" r="11" fill="url(#cheekGrad)"/>
+                    <circle cx="92" cy="66" r="11" fill="url(#cheekGrad)"/>
+                    <path d="M 27 46 Q 39 31 51 46" fill="none" stroke="#2d1404" stroke-width="6.5" stroke-linecap="round"/>
+                    <path d="M 69 46 Q 81 31 93 46" fill="none" stroke="#2d1404" stroke-width="6.5" stroke-linecap="round"/>
+                    <path d="M 28 65 Q 60 69 92 65 Q 87 100 60 100 Q 33 100 28 65 Z" fill="#4c0b0b" stroke="#2d1404" stroke-width="3"/>
+                    <path d="M 31 66 Q 60 70 89 66 L 87 74 Q 60 76 33 74 Z" fill="#ffffff"/>
+                    <ellipse cx="60" cy="90" rx="19" ry="9" fill="#ff5e7e"/>
+                    <path d="M 21 53 C 14 66, 15 78, 22 81 C 29 83, 31 71, 24 55 Z" fill="#5ce1ff" opacity="0.9"/>
+                    <path d="M 99 53 C 106 66, 105 78, 98 81 C 91 83, 89 71, 96 55 Z" fill="#5ce1ff" opacity="0.9"/>
+                </svg>`;
+            }
+
+            return `
+            <svg viewBox="0 0 120 120" width="100%" height="100%">
+                <defs>
+                    <radialGradient id="heartGrad" cx="34%" cy="26%" r="72%">
+                        <stop offset="0%" stop-color="#ff94a8"/>
+                        <stop offset="38%" stop-color="#ff1e42"/>
+                        <stop offset="82%" stop-color="#b8001f"/>
+                        <stop offset="100%" stop-color="#690011"/>
+                    </radialGradient>
+                </defs>
+                <path d="M 60 105 C 60 105 12 73 12 40 C 12 22 26 12 41 12 C 51 12 57 18 60 25 C 63 18 69 12 79 12 C 94 12 108 22 108 40 C 108 73 60 105 60 105 Z" fill="url(#heartGrad)"/>
+                <ellipse cx="37" cy="30" rx="11" ry="6.5" transform="rotate(-28 37 30)" fill="rgba(255,255,255,0.5)"/>
+                <circle cx="27" cy="40" r="3.5" fill="rgba(255,255,255,0.55)"/>
+            </svg>`;
+        }
+
+        function spawnRealisticEmojis() {
+            if (!emojisLayer) return;
+            clearTimeout(emojiCleanupTimer);
+            emojisLayer.classList.remove('exiting', 'active');
+            emojisLayer.innerHTML = '';
+
+            const items = [
+                { type: 'laugh', left: '3%', top: '66%', size: 185, blur: 7, opacity: 0.72, rot: -14, drift: -28, dur: 4500, delay: 0, z: 4 },
+                { type: 'heart', left: '84%', top: '70%', size: 190, blur: 7.5, opacity: 0.7, rot: 15, drift: 32, dur: 4700, delay: 70, z: 4 },
+                { type: 'laugh', left: '76%', top: '78%', size: 175, blur: 6.5, opacity: 0.72, rot: -10, drift: 22, dur: 4900, delay: 140, z: 4 },
+                { type: 'heart', left: '10%', top: '76%', size: 180, blur: 7, opacity: 0.7, rot: 12, drift: -24, dur: 4600, delay: 110, z: 4 },
+                { type: 'laugh', left: '46%', top: '80%', size: 195, blur: 8, opacity: 0.68, rot: 8, drift: 18, dur: 5100, delay: 180, z: 4 },
+
+                { type: 'heart', left: '16%', top: '42%', size: 88, blur: 0, opacity: 0.96, rot: -16, drift: -18, dur: 4400, delay: 40, z: 2 },
+                { type: 'laugh', left: '28%', top: '54%', size: 96, blur: 0, opacity: 0.96, rot: 9, drift: 16, dur: 4600, delay: 90, z: 2 },
+                { type: 'heart', left: '64%', top: '46%', size: 86, blur: 0, opacity: 0.95, rot: 14, drift: -15, dur: 4500, delay: 60, z: 2 },
+                { type: 'laugh', left: '73%', top: '58%', size: 102, blur: 0, opacity: 0.96, rot: -11, drift: 20, dur: 4800, delay: 120, z: 2 },
+                { type: 'heart', left: '22%', top: '72%', size: 92, blur: 0, opacity: 0.95, rot: 12, drift: -14, dur: 4700, delay: 150, z: 2 },
+                { type: 'laugh', left: '36%', top: '66%', size: 98, blur: 0, opacity: 0.96, rot: -7, drift: 14, dur: 4900, delay: 80, z: 2 },
+                { type: 'heart', left: '56%', top: '70%', size: 90, blur: 0, opacity: 0.95, rot: -15, drift: -18, dur: 4600, delay: 130, z: 2 },
+                { type: 'laugh', left: '67%', top: '74%', size: 94, blur: 0, opacity: 0.95, rot: 10, drift: 19, dur: 5000, delay: 170, z: 2 },
+                { type: 'heart', left: '86%', top: '44%', size: 84, blur: 0, opacity: 0.94, rot: 13, drift: -16, dur: 4500, delay: 50, z: 2 },
+                { type: 'laugh', left: '12%', top: '58%', size: 90, blur: 0, opacity: 0.95, rot: -12, drift: 15, dur: 4800, delay: 100, z: 2 },
+                { type: 'heart', left: '49%', top: '50%', size: 82, blur: 0, opacity: 0.95, rot: -9, drift: 12, dur: 4400, delay: 30, z: 2 },
+                { type: 'laugh', left: '59%', top: '55%', size: 95, blur: 0, opacity: 0.96, rot: 8, drift: -15, dur: 4700, delay: 110, z: 2 },
+
+                { type: 'heart', left: '38%', top: '44%', size: 36, blur: 4.2, opacity: 0.54, rot: -10, drift: -10, dur: 4600, delay: 60, z: 1 },
+                { type: 'laugh', left: '54%', top: '42%', size: 42, blur: 4.5, opacity: 0.52, rot: 12, drift: 12, dur: 4800, delay: 100, z: 1 },
+                { type: 'heart', left: '25%', top: '38%', size: 34, blur: 4, opacity: 0.52, rot: 9, drift: -12, dur: 4500, delay: 80, z: 1 },
+                { type: 'laugh', left: '79%', top: '40%', size: 40, blur: 4.5, opacity: 0.52, rot: -14, drift: 14, dur: 4900, delay: 140, z: 1 },
+                { type: 'heart', left: '43%', top: '62%', size: 35, blur: 4, opacity: 0.54, rot: -12, drift: -10, dur: 4700, delay: 120, z: 1 },
+                { type: 'laugh', left: '61%', top: '62%', size: 42, blur: 4.5, opacity: 0.52, rot: 11, drift: 12, dur: 5000, delay: 160, z: 1 },
+                { type: 'heart', left: '31%', top: '79%', size: 38, blur: 4.2, opacity: 0.52, rot: -8, drift: -12, dur: 4600, delay: 90, z: 1 },
+                { type: 'laugh', left: '69%', top: '82%', size: 40, blur: 4.5, opacity: 0.52, rot: 13, drift: 14, dur: 4800, delay: 150, z: 1 },
+                { type: 'heart', left: '8%', top: '48%', size: 34, blur: 4, opacity: 0.52, rot: 10, drift: -10, dur: 4500, delay: 70, z: 1 },
+                { type: 'laugh', left: '91%', top: '62%', size: 42, blur: 4.5, opacity: 0.52, rot: -9, drift: 12, dur: 4900, delay: 130, z: 1 }
+            ];
+
+            let maxEndMs = 0;
+
+            items.forEach((item) => {
+                const el = document.createElement('div');
+                el.className = 'depth-emoji';
+                el.style.left = item.left;
+                el.style.top = item.top;
+                el.style.width = `${item.size}px`;
+                el.style.height = `${item.size}px`;
+                el.style.filter = item.blur > 0
+                    ? `blur(${item.blur}px) drop-shadow(0 8px 18px rgba(0,0,0,0.65))`
+                    : `drop-shadow(0 12px 24px rgba(0,0,0,0.75)) drop-shadow(0 0 14px rgba(255, 215, 0, 0.25))`;
+                el.style.zIndex = item.z;
+                el.style.setProperty('--target-opacity', item.opacity);
+                el.style.setProperty('--rot', `${item.rot}deg`);
+                el.style.setProperty('--drift-x', `${item.drift}px`);
+                el.style.setProperty('--rise-dist', '-125vh');
+                el.style.setProperty('--rise-duration', `${item.dur}ms`);
+                el.style.setProperty('--rise-delay', `${item.delay}ms`);
+                el.innerHTML = buildRealisticEmojiSVG(item.type);
+                emojisLayer.appendChild(el);
+
+                const totalMs = item.dur + item.delay + 120;
+                if (totalMs > maxEndMs) maxEndMs = totalMs;
+            });
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    emojisLayer.classList.add('active');
+                    playMessagesPopSound();
+                });
+            });
+
+            emojiCleanupTimer = setTimeout(() => {
+                emojisLayer.classList.remove('active', 'exiting');
+                emojisLayer.innerHTML = '';
+            }, maxEndMs);
+        }
+
+        function dismissRealisticEmojis() {
+            clearTimeout(emojiCleanupTimer);
+            if (!emojisLayer || (!emojisLayer.classList.contains('active') && !emojisLayer.children.length)) return;
+            emojisLayer.classList.add('exiting');
+            setTimeout(() => {
+                emojisLayer.classList.remove('active', 'exiting');
+                emojisLayer.innerHTML = '';
+            }, 680);
+        }
+
+        // --- "WELCOME TO MY WORLD" -> Centered "O" Tunnel Zoom -> Magic Switch to My Work -> Dock into "MY WORLD" spot ---
+        const welcomeTrigger = document.getElementById('welcomeWorldTrigger');
+        const portalOverlay = document.getElementById('world-portal-overlay');
+        const flyingPhrase = document.getElementById('flying-world-phrase');
+        const workWorldBanner = document.getElementById('work-world-banner');
+        const dockedPill = document.getElementById('myWorldHoverTarget');
+        let isPortalTransitioning = false;
+        let myWorldUnlocked = false;
+        let lastWelcomeHoverTime = 0;
+
+        function renderPhraseWithOTunnel(text, targetOIndex) {
+            if (!flyingPhrase) return;
+            let oCounter = 0;
+            flyingPhrase.innerHTML = Array.from(text).map((ch) => {
+                if (ch.toLowerCase() === 'o') {
+                    const isTarget = (oCounter === targetOIndex);
+                    oCounter += 1;
+                    if (isTarget) {
+                        return `<span class="o-portal-letter" id="centerOPortal">${ch}</span>`;
+                    }
+                    return `<span class="o-portal-letter">${ch}</span>`;
+                }
+                if (ch === ' ') return '<span>&nbsp;</span>';
+                return `<span>${ch}</span>`;
+            }).join('');
+        }
+
+        function startWorldPortalSequence() {
+            if (isPortalTransitioning) return;
+            isPortalTransitioning = true;
+            myWorldUnlocked = true;
+
+            playExpansionBoomSound();
+
+            if (flyingPhrase) {
+                flyingPhrase.classList.remove('styled-my-world');
+                renderPhraseWithOTunnel('WELCOME TO MY WORLD', 2);
+                flyingPhrase.style.transition = 'none';
+                flyingPhrase.style.opacity = '1';
+                flyingPhrase.style.left = '50%';
+                flyingPhrase.style.top = '50%';
+                flyingPhrase.style.transform = 'translate(-50%, -50%) scale(1)';
+            }
+
+            if (portalOverlay) {
+                portalOverlay.classList.remove('revealing');
+                portalOverlay.classList.add('active');
+            }
+
+            requestAnimationFrame(() => {
+                const oEl = document.getElementById('centerOPortal');
+                let shiftX = 0;
+                let shiftY = 0;
+
+                if (oEl && flyingPhrase) {
+                    const phraseRect = flyingPhrase.getBoundingClientRect();
+                    const oRect = oEl.getBoundingClientRect();
+                    const phraseCenterX = phraseRect.left + phraseRect.width / 2;
+                    const phraseCenterY = phraseRect.top + phraseRect.height / 2;
+                    const oCenterX = oRect.left + oRect.width / 2;
+                    const oCenterY = oRect.top + oRect.height / 2;
+
+                    shiftX = phraseCenterX - oCenterX;
+                    shiftY = phraseCenterY - oCenterY;
+                }
+
+                requestAnimationFrame(() => {
+                    if (flyingPhrase) {
+                        flyingPhrase.style.transition = 'transform 0.76s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease 0.52s';
+                        flyingPhrase.style.transform = `translate(calc(-50% + ${shiftX * 16}px), calc(-50% + ${shiftY * 16}px)) scale(16)`;
+                        flyingPhrase.style.opacity = '0';
+                    }
+                });
+            });
+
+            setTimeout(() => {
+                playMagicPortalSound();
+                switchPageSilent('work');
+
+                if (workWorldBanner) {
+                    workWorldBanner.classList.add('visible');
+                }
+                if (dockedPill) {
+                    dockedPill.classList.add('dock-hidden');
+                }
+
+                if (flyingPhrase) {
+                    flyingPhrase.style.transition = 'none';
+                    flyingPhrase.classList.add('styled-my-world');
+                    renderPhraseWithOTunnel('MY WORLD', 0);
+                    flyingPhrase.style.left = '50%';
+                    flyingPhrase.style.top = '50%';
+                    flyingPhrase.style.opacity = '0.35';
+                    flyingPhrase.style.transform = 'translate(-50%, -50%) scale(7.5)';
+                }
+
+                requestAnimationFrame(() => {
+                    const pillRect = dockedPill ? dockedPill.getBoundingClientRect() : null;
+                    const targetX = pillRect ? (pillRect.left + pillRect.width / 2) : (window.innerWidth / 2);
+                    const targetY = pillRect ? (pillRect.top + pillRect.height / 2) : 148;
+                    const targetFontSize = pillRect ? parseFloat(getComputedStyle(dockedPill).fontSize) : 34;
+                    const flyingFontSize = flyingPhrase ? parseFloat(getComputedStyle(flyingPhrase).fontSize) : 48;
+                    const finalScale = Math.max(0.5, Math.min(1.25, targetFontSize / flyingFontSize));
+
+                    requestAnimationFrame(() => {
+                        if (flyingPhrase) {
+                            flyingPhrase.style.transition = 'left 0.78s cubic-bezier(0.22, 1, 0.36, 1), top 0.78s cubic-bezier(0.22, 1, 0.36, 1), transform 0.78s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease';
+                            flyingPhrase.style.opacity = '1';
+                            flyingPhrase.style.left = `${targetX}px`;
+                            flyingPhrase.style.top = `${targetY}px`;
+                            flyingPhrase.style.transform = `translate(-50%, -50%) scale(${finalScale})`;
+                        }
+
+                        setTimeout(() => {
+                            playShrinkDiveSound();
+                            if (portalOverlay) {
+                                portalOverlay.classList.add('revealing');
+                            }
+                        }, 340);
+
+                        setTimeout(() => {
+                            if (dockedPill) {
+                                dockedPill.classList.remove('dock-hidden');
+                            }
+                            if (flyingPhrase) {
+                                flyingPhrase.style.opacity = '0';
+                            }
+                            if (portalOverlay) {
+                                portalOverlay.classList.remove('active', 'revealing');
+                            }
+
+                            spawnRealisticEmojis();
+                            isPortalTransitioning = false;
+                        }, 820);
+                    });
+                });
+            }, 780);
+        }
+
+        if (welcomeTrigger) {
+            const triggerWelcomeHoverAudio = () => {
+                const now = Date.now();
+                if (now - lastWelcomeHoverTime > 160) {
+                    playDeepBlockSound();
+                    lastWelcomeHoverTime = now;
+                }
+            };
+
+            welcomeTrigger.addEventListener('pointerenter', triggerWelcomeHoverAudio);
+            welcomeTrigger.addEventListener('mouseenter', triggerWelcomeHoverAudio);
+            welcomeTrigger.addEventListener('focus', triggerWelcomeHoverAudio);
+
+            welcomeTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                startWorldPortalSequence();
+            });
+            welcomeTrigger.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    startWorldPortalSequence();
+                }
+            });
+        }
+
+        // --- Gold Arabic Guide Bubble ONLY When Touching "MY WORK" Word ---
+        const workSection = document.getElementById('work');
+        const myWorldHoverTarget = document.getElementById('myWorldHoverTarget');
+        const workGuideBubble = document.getElementById('work-guide-bubble');
+        const workProjectsNav = document.getElementById('workProjectsNav');
+        let isBubbleOpen = false;
+        let bubbleHideTimeout = null;
+
+        function openWorkBubbleWithPush() {
+            if (!workGuideBubble || isBubbleOpen) return;
+            clearTimeout(bubbleHideTimeout);
+            isBubbleOpen = true;
+
+            playPushShiftSound(true);
+            if (workProjectsNav) {
+                workProjectsNav.classList.add('pushed-by-bubble');
+            }
+            workGuideBubble.classList.remove('diving-in');
+            workGuideBubble.classList.add('visible');
+        }
+
+        function closeWorkBubbleAndPullBack() {
+            if (!workGuideBubble || !isBubbleOpen) return;
+            isBubbleOpen = false;
+
+            playShrinkDiveSound();
+            workGuideBubble.classList.add('diving-in');
+
+            bubbleHideTimeout = setTimeout(() => {
+                workGuideBubble.classList.remove('visible', 'diving-in');
+                if (workProjectsNav) {
+                    workProjectsNav.classList.remove('pushed-by-bubble');
+                }
+                playPushShiftSound(false);
+            }, 520);
+        }
+
+        if (myWorldHoverTarget) {
+            myWorldHoverTarget.addEventListener('pointerenter', () => {
+                if (workSection && workSection.classList.contains('active-page') && !isPortalTransitioning) {
+                    openWorkBubbleWithPush();
+                }
+            });
+
+            myWorldHoverTarget.addEventListener('pointerleave', () => {
+                closeWorkBubbleAndPullBack();
+            });
+
+            myWorldHoverTarget.addEventListener('click', () => {
+                if (workSection && workSection.classList.contains('active-page') && !isPortalTransitioning) {
+                    if (isBubbleOpen) {
+                        closeWorkBubbleAndPullBack();
+                    } else {
+                        openWorkBubbleWithPush();
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const interactiveBlocks = document.querySelectorAll('.interactive-block');
+            interactiveBlocks.forEach(el => {
+                let lastHover = 0;
+                el.addEventListener('mouseenter', () => {
+                    const now = Date.now();
+                    if (now - lastHover > 220) {
+                        playDeepBlockSound();
+                        lastHover = now;
+                    }
+                });
+            });
+        });
+
+        // --- Smooth Motion Blur Golden Aura tracking Mouse with Inertia ---
+        const cursor = document.getElementById('custom-cursor');
+        const aura = document.getElementById('gold-aura');
+        
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let auraX = mouseX;
+        let auraY = mouseY;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if(cursor) {
+                cursor.style.left = mouseX + 'px';
+                cursor.style.top = mouseY + 'px';
+            }
+        });
+
+        function updateAuraMotion() {
+            auraX += (mouseX - auraX) * 0.12;
+            auraY += (mouseY - auraY) * 0.12;
+            if(aura) {
+                aura.style.left = auraX + 'px';
+                aura.style.top = auraY + 'px';
+            }
+            requestAnimationFrame(updateAuraMotion);
+        }
+        requestAnimationFrame(updateAuraMotion);
+
+        // --- Copy Phone Number + Ask Permission to Open WhatsApp Direct Chat ---
+        const waModal = document.getElementById('wa-permission-modal');
+        const waModalNumberText = document.getElementById('waModalNumberText');
+        const waAllowBtn = document.getElementById('waAllowBtn');
+        const waCancelBtn = document.getElementById('waCancelBtn');
+        let pendingWhatsAppUrl = '';
+
+        function buildWhatsAppUrl(rawPhone) {
+            const digits = String(rawPhone || '').replace(/\D/g, '');
+            const internationalNumber = digits.startsWith('0') ? `2${digits}` : digits;
+            const message = encodeURIComponent('مرحباً كيرولس، تواصلت معك من خلال موقع البورتفوليو الخاص بك.');
+            return `https://wa.me/${internationalNumber}?text=${message}`;
+        }
+
+        function openWhatsAppPermissionModal(phoneText) {
+            if (!waModal) return;
+            pendingWhatsAppUrl = buildWhatsAppUrl(phoneText);
+            if (waModalNumberText) {
+                waModalNumberText.textContent = phoneText;
+            }
+            waModal.classList.add('open');
+        }
+
+        function closeWhatsAppPermissionModal() {
+            if (!waModal) return;
+            waModal.classList.remove('open');
+            pendingWhatsAppUrl = '';
+        }
+
+        if (waAllowBtn) {
+            waAllowBtn.addEventListener('click', () => {
+                playDeepBlockSound();
+                if (pendingWhatsAppUrl) {
+                    window.open(pendingWhatsAppUrl, '_blank', 'noopener,noreferrer');
+                }
+                closeWhatsAppPermissionModal();
+            });
+        }
+
+        if (waCancelBtn) {
+            waCancelBtn.addEventListener('click', () => {
+                playDeepBlockSound();
+                closeWhatsAppPermissionModal();
+            });
+        }
+
+        if (waModal) {
+            waModal.addEventListener('click', (e) => {
+                if (e.target === waModal) {
+                    closeWhatsAppPermissionModal();
+                }
+            });
+        }
+
+        function copyToClipboard(text) {
+            playDeepBlockSound();
+            const isPhone = /^0\d{9,10}$/.test(String(text).trim());
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(`Copied: ${text}`);
+                    if (isPhone) {
+                        openWhatsAppPermissionModal(text);
+                    }
+                }).catch(() => {
+                    showToast(`Copied: ${text}`);
+                    if (isPhone) {
+                        openWhatsAppPermissionModal(text);
+                    }
+                });
+            } else {
+                showToast(`Copied: ${text}`);
+                if (isPhone) {
+                    openWhatsAppPermissionModal(text);
+                }
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('copy-toast');
+            if(toast) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2500);
+            }
+        }
+
+        // --- Swipe Carousel Logic with Auto-Pause on Slide Change ---
+        let currentSlide = 0;
+        const totalSlides = 6;
+        const track = document.getElementById('carouselTrack');
+        const slides = document.querySelectorAll('.work-slide');
+        const tabBtns = document.querySelectorAll('.project-tab-btn');
+
+        function pauseAllVideos() {
+            slides.forEach(slide => {
+                const videos = slide.querySelectorAll('video');
+                videos.forEach(video => video.pause());
+            });
+        }
+
+        // Load media only after the visitor opens My Work, and only for the visible slide.
+        function loadCurrentSlideVideos() {
+            const activeSlide = slides[currentSlide];
+            if (!activeSlide) return;
+            activeSlide.querySelectorAll('video source[data-src]').forEach(source => {
+                source.src = source.dataset.src;
+                source.removeAttribute('data-src');
+                source.closest('video')?.load();
+            });
+        }
+
+        function updateCarousel() {
+            playSwipeSound();
+            pauseAllVideos();
+            
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            slides.forEach((slide, index) => {
+                if(index === currentSlide) {
+                    slide.classList.add('active-slide');
+                } else {
+                    slide.classList.remove('active-slide');
+                }
+            });
+            tabBtns.forEach((btn, index) => {
+                if(index === currentSlide) {
+                    btn.classList.add('active-tab');
+                } else {
+                    btn.classList.remove('active-tab');
+                }
+            });
+            if (document.getElementById('work')?.classList.contains('active-page')) {
+                loadCurrentSlideVideos();
+            }
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        // Touch & Mouse Swipe Gestures support
+        let startX = 0;
+        let isDragging = false;
+
+        const container = document.getElementById('carouselContainer');
+        if(container) {
+            container.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+            });
+
+            container.addEventListener('touchend', (e) => {
+                if(!isDragging) return;
+                const endX = e.changedTouches[0].clientX;
+                handleSwipe(startX, endX);
+                isDragging = false;
+            });
+
+            container.addEventListener('mousedown', (e) => {
+                startX = e.clientX;
+                isDragging = true;
+            });
+
+            container.addEventListener('mouseup', (e) => {
+                if(!isDragging) return;
+                const endX = e.clientX;
+                handleSwipe(startX, endX);
+                isDragging = false;
+            });
+        }
+
+        function handleSwipe(start, end) {
+            const threshold = 40;
+            if(start - end > threshold) {
+                nextSlide();
+            } else if(end - start > threshold) {
+                prevSlide();
+            }
+        }
+
+        function switchPageSilent(pageId) {
+            pauseAllVideos();
+            if (pageId === 'work' && myWorldUnlocked && workWorldBanner) {
+                workWorldBanner.classList.add('visible');
+            }
+            document.querySelectorAll('.page-section').forEach(sec => {
+                sec.classList.remove('active-page');
+            });
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                const onclickAttr = link.getAttribute('onclick') || '';
+                if (onclickAttr.includes(`'${pageId}'`)) {
+                    link.classList.add('active');
+                }
+            });
+            const targetSec = document.getElementById(pageId);
+            if (targetSec) targetSec.classList.add('active-page');
+            if (pageId === 'work') loadCurrentSlideVideos();
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        // Standard Page Switching Logic with video pause support
+        function switchPage(pageId, event) {
+            if(event) event.preventDefault();
+            
+            playDeepBlockSound();
+            pauseAllVideos();
+            if (isBubbleOpen) {
+                clearTimeout(bubbleHideTimeout);
+                isBubbleOpen = false;
+                if (workGuideBubble) workGuideBubble.classList.remove('visible', 'diving-in');
+                if (workProjectsNav) workProjectsNav.classList.remove('pushed-by-bubble');
+            }
+            dismissRealisticEmojis();
+
+            if (pageId === 'work' && myWorldUnlocked && workWorldBanner) {
+                workWorldBanner.classList.add('visible');
+            }
+
+            document.querySelectorAll('.page-section').forEach(sec => {
+                sec.classList.remove('active-page');
+            });
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            document.getElementById(pageId).classList.add('active-page');
+            if (pageId === 'work') loadCurrentSlideVideos();
+            
+            if(event && event.target) {
+                event.target.classList.add('active');
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
